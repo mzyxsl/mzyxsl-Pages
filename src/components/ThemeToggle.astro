@@ -1,0 +1,122 @@
+<div class="fixed top-4 right-4 z-50">
+    <div class="relative">
+        <button id="themeToggleBtn" class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg hover:scale-105 hover:bg-white/90 dark:hover:bg-gray-700/90 transition-all duration-200 flex items-center justify-center cursor-pointer">
+            <i id="themeIcon" class="fas fa-moon text-blue-500 dark:text-blue-400"></i>
+        </button>
+
+        <div id="themeDropdownMenu" class="absolute right-0 mt-2 w-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hidden">
+            <button data-theme="light" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
+                <i class="fas fa-sun text-blue-500 dark:text-blue-400"></i> 浅色模式
+            </button>
+            <button data-theme="dark" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
+                <i class="fas fa-moon text-blue-500 dark:text-blue-400"></i> 深色模式
+            </button>
+            <button data-theme="auto" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
+                <i class="fas fa-regular fa-circle-half-stroke text-blue-500 dark:text-blue-400"></i> 跟随系统
+            </button>
+        </div>
+    </div>
+</div>
+
+<script is:inline>
+    (function() {
+        const STORAGE_KEY = 'theme-preference';
+        const toggleBtn = document.getElementById('themeToggleBtn');
+        const dropdownMenu = document.getElementById('themeDropdownMenu');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeOptions = document.querySelectorAll('.theme-option');
+
+        if (!toggleBtn || !dropdownMenu || !themeIcon) return;
+
+        const getSystemTheme = () =>
+            window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+        const updateButtonIcon = (mode) => {
+            if (mode === 'light') {
+                themeIcon.className = 'fas fa-sun text-blue-500';
+            } else if (mode === 'dark') {
+                themeIcon.className = 'fas fa-moon text-blue-400';
+            } else { // auto
+                themeIcon.className = 'fas fa-regular fa-circle-half-stroke text-blue-500 dark:text-blue-400';
+            }
+        };
+
+        const applyTheme = (mode) => {
+            let theme;
+            if (mode === 'auto') {
+                theme = getSystemTheme();
+                localStorage.removeItem(STORAGE_KEY);
+            } else {
+                theme = mode;
+                localStorage.setItem(STORAGE_KEY, theme);
+            }
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            updateButtonIcon(mode);
+
+            themeOptions.forEach(opt => {
+                const optMode = opt.getAttribute('data-theme');
+                if (optMode === mode) {
+                    opt.classList.add('bg-blue-50', 'dark:bg-blue-900/50', 'text-blue-500', 'dark:text-blue-400');
+                } else {
+                    opt.classList.remove('bg-blue-50', 'dark:bg-blue-900/50', 'text-blue-500', 'dark:text-blue-400');
+                }
+            });
+        };
+
+        const getCurrentMode = () => {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored === 'light') return 'light';
+            if (stored === 'dark') return 'dark';
+            return 'auto';
+        };
+
+        const toggleDropdown = () => {
+            dropdownMenu.classList.toggle('hidden');
+        };
+
+        const onOptionClick = (e) => {
+            const mode = e.currentTarget.getAttribute('data-theme');
+            applyTheme(mode);
+            dropdownMenu.classList.add('hidden');
+        };
+
+        const handleClickOutside = (e) => {
+            if (!toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.add('hidden');
+            }
+        };
+
+        toggleBtn.addEventListener('click', toggleDropdown);
+        themeOptions.forEach(opt => opt.addEventListener('click', onOptionClick));
+        document.addEventListener('click', handleClickOutside);
+
+        const media = window.matchMedia('(prefers-color-scheme: dark)');
+        const handleSystemChange = (e) => {
+            const currentMode = getCurrentMode();
+            if (currentMode === 'auto') {
+                const newTheme = e.matches ? 'dark' : 'light';
+                if (newTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                updateButtonIcon('auto');
+                themeOptions.forEach(opt => {
+                    if (opt.getAttribute('data-theme') === 'auto') {
+                        opt.classList.add('bg-indigo-50', 'dark:bg-indigo-900/50', 'text-indigo-600', 'dark:text-indigo-300');
+                    } else {
+                        opt.classList.remove('bg-indigo-50', 'dark:bg-indigo-900/50', 'text-indigo-600', 'dark:text-indigo-300');
+                    }
+                });
+            }
+        };
+        media.addEventListener('change', handleSystemChange);
+
+        const initialMode = getCurrentMode();
+        applyTheme(initialMode);
+    })();
+</script>

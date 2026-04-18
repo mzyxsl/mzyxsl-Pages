@@ -1,0 +1,88 @@
+---
+export interface Props {
+    href?: string;          // 链接地址（type='link' 时必填）
+    icon: string;
+    iconColor?: string;
+    title: string;
+    description: string;    // 显示文本，同时用于复制（type='copy'时）
+    type?: 'link' | 'copy'; // 默认为 'link'
+}
+const { href, icon, iconColor = "text-gray-800", title, description, type = 'link' } = Astro.props;
+---
+
+<div
+        class="card-container group block cursor-pointer"
+        data-type={type}
+        data-href={type === 'link' ? href : undefined}
+        data-copy={type === 'copy' ? description : undefined}
+>
+    <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-2xl p-5 flex items-center gap-5 shadow-md hover:shadow-xl transition-all hover:-translate-y-1">
+        <div class="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-3xl group-hover:scale-105 transition-transform">
+            <i class={`${icon} ${iconColor}`}></i>
+        </div>
+        <div class="flex-1">
+            <h3 class="font-bold text-xl">{title}</h3>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{description}</p>
+        </div>
+        <i class="fas fa-chevron-right text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all"></i>
+    </div>
+</div>
+
+<script>
+    // 显示Toast
+    function showToast(message: string, isSuccess = true, duration = 2000) {
+        const existingToast = document.querySelector('.custom-toast');
+        if (existingToast) existingToast.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'custom-toast fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-2 rounded-full shadow-lg text-sm font-medium z-50 transition-opacity duration-300 flex items-center gap-2';
+        // 根据当前主题设置背景色
+        const isDark = document.documentElement.classList.contains('dark');
+        toast.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
+        toast.style.color = isDark ? '#e5e7eb' : '#1f2937';
+        toast.style.border = isDark ? '1px solid #374151' : '1px solid #e5e7eb';
+
+        // 创建图标元素
+        const icon = document.createElement('i');
+        if (isSuccess) {
+            icon.className = 'fas fa-check-circle text-green-500';
+        } else {
+            icon.className = 'fas fa-exclamation-circle text-red-500';
+        }
+        // 创建文本节点
+        const textSpan = document.createElement('span');
+        textSpan.innerText = message;
+
+        toast.appendChild(icon);
+        toast.appendChild(textSpan);
+        document.body.appendChild(toast);
+
+        // 淡入淡出效果
+        toast.style.opacity = '0';
+        setTimeout(() => { toast.style.opacity = '1'; }, 10);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    }
+
+    document.querySelectorAll('.card-container').forEach(card => {
+        card.addEventListener('click', async () => {
+            const type = card.getAttribute('data-type');
+            if (type === 'link') {
+                const href = card.getAttribute('data-href');
+                if (href) window.open(href, '_blank');
+            } else if (type === 'copy') {
+                const text = card.getAttribute('data-copy');
+                if (text) {
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        showToast(`已复制: ${text}`, true);
+                    } catch (err) {
+                        showToast(`复制失败，请手动复制`, false);
+                    }
+                }
+            }
+        });
+    });
+</script>
