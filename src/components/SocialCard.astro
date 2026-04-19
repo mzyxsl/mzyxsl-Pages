@@ -10,12 +10,7 @@ export interface Props {
 const { href, icon, iconColor = "text-gray-800", title, description, type = 'link' } = Astro.props;
 ---
 
-<div
-        class="card-container group block cursor-pointer active:scale-95 transition-transform duration-100"
-        data-type={type}
-        data-href={type === 'link' ? href : undefined}
-        data-copy={type === 'copy' ? description : undefined}
->
+<div class="card-container group block cursor-pointer active:scale-95 transition-transform duration-100" data-type={type} data-href={type === 'link' ? href : undefined} data-copy={type === 'copy' ? description : undefined}>
     <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-2xl p-5 flex items-center gap-5 shadow-md hover:shadow-xl transition-all hover:bg-gray-100/80 dark:hover:bg-gray-700/80">
         <div class="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-3xl">
             <i class={`${icon} ${iconColor}`}></i>
@@ -35,7 +30,7 @@ const { href, icon, iconColor = "text-gray-800", title, description, type = 'lin
         if (existingToast) existingToast.remove();
 
         const toast = document.createElement('div');
-        toast.className = 'custom-toast fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded-full shadow-lg text-sl font-medium z-50 transition-opacity duration-300 flex items-center gap-2';
+        toast.className = 'custom-toast fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded-full shadow-lg text-sm font-medium z-50 transition-opacity duration-300 flex items-center gap-2';
         // 根据当前主题设置背景色
         const isDark = document.documentElement.classList.contains('dark');
         toast.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
