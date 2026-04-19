@@ -2,14 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import { Picture } from 'astro:assets';
 import avatar from '../assets/images/avatar.png';
-import ThemeToggle from '../components/ThemeToggle.astro';
 import SocialCard from '../components/SocialCard.astro';
 
 const currentYear = new Date().getFullYear();
 ---
 
 <Layout>
-	<ThemeToggle />
 
 	<div class="text-center mb-12 md:mb-16">
 		<div class="inline-flex items-center justify-center w-28 h-28 md:w-32 md:h-32 rounded-full bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm shadow-xl ring-4 ring-white/50 dark:ring-gray-700/50 mb-5 overflow-hidden transition-transform duration-300 hover:scale-105">
