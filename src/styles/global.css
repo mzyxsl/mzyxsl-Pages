@@ -14,6 +14,21 @@ footer,
     background-color: transparent;
 }
 
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.dropdown-animate {
+    animation: dropdownFadeIn 0.2s ease-out forwards;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;

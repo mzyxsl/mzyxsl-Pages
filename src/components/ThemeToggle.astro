@@ -89,7 +89,19 @@
         };
 
         const toggleDropdown = () => {
-            dropdownMenu.classList.toggle('hidden');
+            if (dropdownMenu.classList.contains('hidden')) {
+                // 显示菜单
+                dropdownMenu.classList.remove('hidden');
+                // 添加动画类
+                dropdownMenu.classList.add('dropdown-animate');
+                // 动画结束后移除动画类
+                dropdownMenu.addEventListener('animationend', () => {
+                    dropdownMenu.classList.remove('dropdown-animate');
+                }, { once: true });
+            } else {
+                // 隐藏菜单
+                dropdownMenu.classList.add('hidden');
+            }
         };
 
         const onOptionClick = (e) => {
