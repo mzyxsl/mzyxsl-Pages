@@ -90,29 +90,45 @@
 
         const toggleDropdown = () => {
             if (dropdownMenu.classList.contains('hidden')) {
-                // 显示菜单
+                // 打开菜单（带入场动画）
                 dropdownMenu.classList.remove('hidden');
-                // 添加动画类
-                dropdownMenu.classList.add('dropdown-animate');
-                // 动画结束后移除动画类
+                void dropdownMenu.offsetHeight; // 强制重绘
+                dropdownMenu.classList.remove('dropdown-animate-out', 'dropdown-animate-in');
+                dropdownMenu.classList.add('dropdown-animate-in');
                 dropdownMenu.addEventListener('animationend', () => {
-                    dropdownMenu.classList.remove('dropdown-animate');
+                    dropdownMenu.classList.remove('dropdown-animate-in');
                 }, { once: true });
             } else {
-                // 隐藏菜单
-                dropdownMenu.classList.add('hidden');
+                // 关闭菜单（带出场动画）
+                dropdownMenu.classList.remove('dropdown-animate-in');
+                dropdownMenu.classList.add('dropdown-animate-out');
+                dropdownMenu.addEventListener('animationend', () => {
+                    dropdownMenu.classList.add('hidden');
+                    dropdownMenu.classList.remove('dropdown-animate-out');
+                }, { once: true });
             }
         };
 
         const onOptionClick = (e) => {
             const mode = e.currentTarget.getAttribute('data-theme');
             applyTheme(mode);
-            dropdownMenu.classList.add('hidden');
+            closeDropdownWithAnimation();
+        };
+
+        const closeDropdownWithAnimation = () => {
+            if (!dropdownMenu.classList.contains('hidden')) {
+                dropdownMenu.classList.remove('dropdown-animate-in');
+                dropdownMenu.classList.add('dropdown-animate-out');
+                dropdownMenu.addEventListener('animationend', () => {
+                    dropdownMenu.classList.add('hidden');
+                    dropdownMenu.classList.remove('dropdown-animate-out');
+                }, { once: true });
+            }
         };
 
         const handleClickOutside = (e) => {
             if (!toggleBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                dropdownMenu.classList.add('hidden');
+                closeDropdownWithAnimation();
             }
         };
 

@@ -25,8 +25,23 @@ footer,
     }
 }
 
-.dropdown-animate {
+@keyframes dropdownFadeOut {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95) translateY(-8px);
+    }
+}
+
+.dropdown-animate-in {
     animation: dropdownFadeIn 0.2s ease-out forwards;
+}
+
+.dropdown-animate-out {
+    animation: dropdownFadeOut 0.15s ease-in forwards;
 }
 
 @keyframes fadeInUp {
