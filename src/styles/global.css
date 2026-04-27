@@ -29,43 +29,42 @@ footer,
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
+html {
+    overflow-y: auto;
+}
+
+:root {
+    --scrollbar-track: #f1f1f1;
+    --scrollbar-thumb: #cbd5e1;
+    --scrollbar-thumb-hover: #94a3b8;
+}
+
+:root.dark {
+    --scrollbar-track: #1e293b;
+    --scrollbar-thumb: #475569;
+    --scrollbar-thumb-hover: #64748b;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
 }
-
 ::-webkit-scrollbar-track {
-    background: #f1f1f1;
+    background: var(--scrollbar-track);
     border-radius: 10px;
 }
-
 ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: var(--scrollbar-thumb);
     border-radius: 10px;
-    transition: background 0.2s ease;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
+    background: var(--scrollbar-thumb-hover);
 }
 
-/* 深色模式下的滚动条 */
-.dark ::-webkit-scrollbar-track {
-    background: #1e293b;
-}
-
-.dark ::-webkit-scrollbar-thumb {
-    background: #475569;
-}
-
-.dark ::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
-}
-
-/* Firefox 滚动条样式 */
+/* Firefox */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #cbd5e1 #f1f1f1;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
 .dark * {
