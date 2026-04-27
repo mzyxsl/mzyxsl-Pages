@@ -1,25 +1,28 @@
 <div class="fixed top-4 right-4 z-50">
     <div class="relative">
         <button id="themeToggleBtn" class="w-10 h-10 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-md hover:shadow-lg hover:bg-gray-100/80 dark:hover:bg-gray-700/90 transition-all duration-100 flex items-center justify-center cursor-pointer active:scale-95">
-            <i id="themeIcon" class="fas fa-moon text-blue-500 dark:text-cyan-400"></i>
+            <iconify-icon id="themeIcon" icon="material-symbols:contrast" class="text-blue-500 dark:text-cyan-400 text-xl"></iconify-icon>
         </button>
 
         <div id="themeDropdownMenu" class="absolute right-0 mt-2 w-40 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden hidden">
             <button data-theme="light" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
-                <i class="fas fa-sun text-blue-500 dark:text-cyan-400"></i> 浅色模式
+                <iconify-icon icon="material-symbols:light-mode" class="text-blue-500 dark:text-cyan-400 text-base"></iconify-icon>
+                浅色模式
             </button>
             <button data-theme="dark" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
-                <i class="fas fa-moon text-blue-500 dark:text-cyan-400"></i> 深色模式
+                <iconify-icon icon="material-symbols:dark-mode" class="text-blue-500 dark:text-cyan-400 text-base"></iconify-icon>
+                深色模式
             </button>
             <button data-theme="auto" class="theme-option w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center gap-2 transition-colors">
-                <i class="fas fa-regular fa-circle-half-stroke text-blue-500 dark:text-cyan-400"></i> 跟随系统
+                <iconify-icon icon="material-symbols:contrast" class="text-blue-500 dark:text-cyan-400 text-base"></iconify-icon>
+                跟随系统
             </button>
         </div>
     </div>
 </div>
 
 <script is:inline>
-    (function() {
+    (function () {
         const STORAGE_KEY = 'theme-preference';
         const toggleBtn = document.getElementById('themeToggleBtn');
         const dropdownMenu = document.getElementById('themeDropdownMenu');
@@ -33,11 +36,12 @@
 
         const updateButtonIcon = (mode) => {
             if (mode === 'light') {
-                themeIcon.className = 'fas fa-sun text-blue-500';
+                themeIcon.setAttribute('icon', 'material-symbols:light-mode');
             } else if (mode === 'dark') {
-                themeIcon.className = 'fas fa-moon text-cyan-400';
-            } else { // auto
-                themeIcon.className = 'fas fa-regular fa-circle-half-stroke text-blue-500 dark:text-cyan-400';
+                themeIcon.setAttribute('icon', 'material-symbols:dark-mode');
+            } else {
+                // auto
+                themeIcon.setAttribute('icon', 'material-symbols:contrast');
             }
         };
 
@@ -57,12 +61,22 @@
             }
             updateButtonIcon(mode);
 
-            themeOptions.forEach(opt => {
+            themeOptions.forEach((opt) => {
                 const optMode = opt.getAttribute('data-theme');
                 if (optMode === mode) {
-                    opt.classList.add('bg-blue-50', 'dark:bg-cyan-800/50', 'text-blue-500', 'dark:text-cyan-400');
+                    opt.classList.add(
+                        'bg-blue-50',
+                        'dark:bg-cyan-800/50',
+                        'text-blue-500',
+                        'dark:text-cyan-400',
+                    );
                 } else {
-                    opt.classList.remove('bg-blue-50', 'dark:bg-cyan-800/50', 'text-blue-500', 'dark:text-cyan-400');
+                    opt.classList.remove(
+                        'bg-blue-50',
+                        'dark:bg-cyan-800/50',
+                        'text-blue-500',
+                        'dark:text-cyan-400',
+                    );
                 }
             });
         };
@@ -91,7 +105,7 @@
         };
 
         toggleBtn.addEventListener('click', toggleDropdown);
-        themeOptions.forEach(opt => opt.addEventListener('click', onOptionClick));
+        themeOptions.forEach((opt) => opt.addEventListener('click', onOptionClick));
         document.addEventListener('click', handleClickOutside);
 
         const media = window.matchMedia('(prefers-color-scheme: dark)');
@@ -105,11 +119,21 @@
                     document.documentElement.classList.remove('dark');
                 }
                 updateButtonIcon('auto');
-                themeOptions.forEach(opt => {
+                themeOptions.forEach((opt) => {
                     if (opt.getAttribute('data-theme') === 'auto') {
-                        opt.classList.add('bg-blue-50', 'dark:bg-blue-900/50', 'text-blue-600', 'dark:text-blue-300');
+                        opt.classList.add(
+                            'bg-blue-50',
+                            'dark:bg-blue-900/50',
+                            'text-blue-600',
+                            'dark:text-blue-300',
+                        );
                     } else {
-                        opt.classList.remove('bg-blue-50', 'dark:bg-blue-900/50', 'text-blue-600', 'dark:text-blue-300');
+                        opt.classList.remove(
+                            'bg-blue-50',
+                            'dark:bg-blue-900/50',
+                            'text-blue-600',
+                            'dark:text-blue-300',
+                        );
                     }
                 });
             }

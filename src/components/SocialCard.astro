@@ -1,10 +1,10 @@
 ---
 export interface Props {
     href?: string;          // 链接地址（type='link' 时必填）
-    icon: string;
-    iconColor?: string;
+    icon: string;           // Iconify 图标名，如 'fa6-brands:github'
+    iconColor?: string;     // Tailwind 颜色类，如 'text-gray-800'
     title: string;
-    description: string;    // 显示文本，同时用于复制（type='copy'时）
+    description: string;    // 显示文本，同时用于复制（type='copy'）
     type?: 'link' | 'copy'; // 默认为 'link'
 }
 const { href, icon, iconColor = "text-gray-800", title, description, type = 'link' } = Astro.props;
@@ -13,19 +13,19 @@ const { href, icon, iconColor = "text-gray-800", title, description, type = 'lin
 <div class="card-container group block cursor-pointer active:scale-95 transition-transform duration-100" select-none data-type={type} data-href={type === 'link' ? href : undefined} data-copy={type === 'copy' ? description : undefined} draggable="false" ondragstart="return false">
     <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-2xl p-5 flex items-center gap-5 shadow-md hover:shadow-xl transition-all hover:bg-gray-100/80 dark:hover:bg-gray-700/80">
         <div class="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-3xl">
-            <i class={`${icon} ${iconColor}`}></i>
+            <iconify-icon icon={icon} class={`${iconColor} text-2xl`}></iconify-icon>
         </div>
         <div class="flex-1">
             <h3 class="font-bold text-xl">{title}</h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{description}</p>
         </div>
-        <i class="fas fa-chevron-right text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all"></i>
+        <iconify-icon icon="fa6-solid:chevron-right" class="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all text-base"></iconify-icon>
     </div>
 </div>
 
 <script>
-    // 显示Toast
-    function showToast(message: string, isSuccess = true, duration = 2000) {
+    // 显示 Toast
+    function showToast(message: string, isSuccess: boolean = true, duration: number = 2000) {
         const existingToast = document.querySelector('.custom-toast');
         if (existingToast) existingToast.remove();
 
@@ -37,12 +37,14 @@ const { href, icon, iconColor = "text-gray-800", title, description, type = 'lin
         toast.style.color = isDark ? '#e5e7eb' : '#1f2937';
         toast.style.border = isDark ? '1px solid #374151' : '1px solid #e5e7eb';
 
-        // 创建图标元素
-        const icon = document.createElement('i');
+        // 创建图标元素（使用 iconify-icon）
+        const icon = document.createElement('iconify-icon');
         if (isSuccess) {
-            icon.className = 'fas fa-check-circle text-green-500';
+            icon.setAttribute('icon', 'fa6-solid:circle-check');
+            icon.setAttribute('class', 'text-green-500');
         } else {
-            icon.className = 'fas fa-exclamation-circle text-red-500';
+            icon.setAttribute('icon', 'fa6-solid:circle-exclamation');
+            icon.setAttribute('class', 'text-red-500');
         }
         // 创建文本节点
         const textSpan = document.createElement('span');
