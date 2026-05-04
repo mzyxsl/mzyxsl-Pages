@@ -44,6 +44,20 @@ footer,
     animation: dropdownFadeOut 0.15s ease-in forwards;
 }
 
+.theme-option[class*="bg-blue-50"]:hover {
+    background-color: #dbeafe !important; /* blue-100 */
+}
+.theme-option[class*="bg-blue-50"]:active {
+    background-color: #bfdbfe !important; /* blue-200 */
+}
+
+.dark .theme-option[class*="bg-cyan-800"]:hover {
+    background-color: rgba(21, 94, 117, 0.6) !important;
+}
+.dark .theme-option[class*="bg-cyan-800"]:active {
+    background-color: rgba(21, 94, 117, 0.8) !important;
+}
+
 @keyframes fadeInUp {
     from {
         opacity: 0;
