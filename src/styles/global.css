@@ -73,45 +73,51 @@ footer,
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
-html {
-    overflow-y: auto;
-    scrollbar-gutter: stable;
+.os-theme-custom {
+    --os-handle-bg: #cbd5e1;
+    --os-handle-bg-hover: #94a3b8;
+    --os-handle-bg-active: #64748b;
+    --os-handle-border-radius: 10px;
+    --os-track-bg: rgba(241, 241, 241, 0.4);
+    --os-track-border-radius: 10px;
+    --os-size: 8px;
 }
 
-:root {
-    --scrollbar-track: #f1f1f1;
-    --scrollbar-thumb: #cbd5e1;
-    --scrollbar-thumb-hover: #94a3b8;
+body.os-theme-custom.dark {
+    --os-handle-bg: #94a3b8 !important;
+    --os-handle-bg-hover: #cbd5e1 !important;
+    --os-handle-bg-active: #e2e8f0 !important;
+    --os-track-bg: rgba(51, 65, 85, 0.6) !important;
 }
 
-:root.dark {
-    --scrollbar-track: #1e293b;
-    --scrollbar-thumb: #475569;
-    --scrollbar-thumb-hover: #64748b;
+.dark .os-scrollbar-handle {
+    background-color: #94a3b8 !important;      /* 亮灰蓝 */
+}
+.dark .os-scrollbar-handle:hover {
+    background-color: #cbd5e1 !important;      /* 更亮 */
+}
+.dark .os-scrollbar-handle:active {
+    background-color: #e2e8f0 !important;      /* 接近白色 */
 }
 
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
+.os-scrollbar-vertical {
+    width: 8px !important;
+    transition: width 0.2s ease-in-out !important;
 }
 
-/* Firefox */
-* {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+.os-scrollbar-vertical:hover {
+    width: 12px !important;
 }
 
-.dark * {
-    scrollbar-color: #475569 #1e293b;
+.os-scrollbar-vertical .os-scrollbar-handle {
+    border-radius: 10px !important;
+}
+
+.os-scrollbar-vertical {
+    right: 2px !important;
+    width: 8px !important;
+}
+
+.os-scrollbar-vertical .os-scrollbar-track {
+    padding: 4px 0 !important;
 }

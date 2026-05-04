@@ -1,13 +1,51 @@
 ---
 import '../styles/global.css'
 import '@fontsource/noto-sans';
+import 'overlayscrollbars/styles/overlayscrollbars.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 <head>
-	<script> import 'iconify-icon'; </script>
+	<script>
+		import 'iconify-icon';
+		import { OverlayScrollbars } from 'overlayscrollbars';
+		const init = () => {
+			// 初始化滚动条
+			OverlayScrollbars(document.body, {
+				scrollbars: {
+					autoHide: 'move',
+					clickScroll: true,
+				},
+			});
+
+			document.body.classList.add('os-theme-custom');
+
+			const syncDarkClass = () => {
+				const isDark = document.documentElement.classList.contains('dark');
+				if (isDark) {
+					document.body.classList.add('dark');
+				} else {
+					document.body.classList.remove('dark');
+				}
+			};
+
+			syncDarkClass();
+
+			// 监听 html 上的 dark 类变化
+			const observer = new MutationObserver(() => {
+				syncDarkClass();
+			});
+			observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', init);
+		} else {
+			init();
+		}
+	</script>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<link rel="icon" href="/favicon.ico" />
@@ -42,15 +80,3 @@ import ThemeToggle from '../components/ThemeToggle.astro';
 </main>
 </body>
 </html>
-
-<style>
-	html, body {
-		margin: 0;
-		width: 100%;
-		min-height: 100%;
-		font-family: 'Inter', system-ui, sans-serif;
-	}
-	html {
-		transition: background-color 0.2s ease, color 0.2s ease;
-	}
-</style>
