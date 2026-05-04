@@ -73,51 +73,52 @@ footer,
     animation: fadeInUp 0.6s ease-out forwards;
 }
 
-.os-theme-custom {
-    --os-handle-bg: #cbd5e1;
-    --os-handle-bg-hover: #94a3b8;
-    --os-handle-bg-active: #64748b;
-    --os-handle-border-radius: 10px;
-    --os-track-bg: rgba(241, 241, 241, 0.4);
-    --os-track-border-radius: 10px;
-    --os-size: 8px;
+/* 垂直滚动条基础 */
+.os-scrollbar-vertical {
+    @apply px-1 py-1 w-4;
+    .os-scrollbar-track .os-scrollbar-handle {
+        @apply rounded-full w-1;
+        transition: width 0.2s, background 0.2s;
+    }
+    &:hover .os-scrollbar-track .os-scrollbar-handle {
+        @apply w-2;
+    }
 }
 
-body.os-theme-custom.dark {
-    --os-handle-bg: #94a3b8 !important;
-    --os-handle-bg-hover: #cbd5e1 !important;
-    --os-handle-bg-active: #e2e8f0 !important;
-    --os-track-bg: rgba(51, 65, 85, 0.6) !important;
+/* 颜色变量（支持深色模式） */
+.os-scrollbar {
+    &.scrollbar-auto {
+        --os-handle-bg: #cbd5e1;
+        --os-handle-bg-hover: #94a3b8;
+        --os-handle-bg-active: #64748b;
+    }
+    &.scrollbar-dark {
+        --os-handle-bg: #475569;
+        --os-handle-bg-hover: #64748b;
+        --os-handle-bg-active: #94a3b8;
+    }
+    &.scrollbar-light {
+        --os-handle-bg: #e2e8f0;
+        --os-handle-bg-hover: #cbd5e1;
+        --os-handle-bg-active: #94a3b8;
+    }
 }
 
+/* 深色模式强制亮色 */
 .dark .os-scrollbar-handle {
-    background-color: #94a3b8 !important;      /* 亮灰蓝 */
+    background-color: #94a3b8 !important;
 }
 .dark .os-scrollbar-handle:hover {
-    background-color: #cbd5e1 !important;      /* 更亮 */
+    background-color: #cbd5e1 !important;
 }
 .dark .os-scrollbar-handle:active {
-    background-color: #e2e8f0 !important;      /* 接近白色 */
+    background-color: #e2e8f0 !important;
 }
 
-.os-scrollbar-vertical {
-    width: 8px !important;
-    transition: width 0.2s ease-in-out !important;
-}
-
-.os-scrollbar-vertical:hover {
-    width: 12px !important;
-}
-
-.os-scrollbar-vertical .os-scrollbar-handle {
-    border-radius: 10px !important;
-}
-
+/* 右侧间距、透明轨道 */
 .os-scrollbar-vertical {
     right: 2px !important;
-    width: 8px !important;
 }
-
-.os-scrollbar-vertical .os-scrollbar-track {
-    padding: 4px 0 !important;
+.os-scrollbar-track {
+    background: transparent !important;
 }
