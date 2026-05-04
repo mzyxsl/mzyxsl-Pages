@@ -122,3 +122,9 @@ footer,
 .os-scrollbar-track {
     background: transparent !important;
 }
+
+@media (max-width: 768px) {
+    .os-scrollbar {
+        display: none !important;
+    }
+}
