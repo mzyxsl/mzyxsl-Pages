@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 export interface Props {
     href?: string;          // 链接地址（type='link' 时必填）
     icon: string;           // Iconify 图标名，如 'fa6-brands:github'
@@ -18,48 +20,45 @@ const { href, icon, iconColor = "text-gray-800", title, description, type = 'lin
      ondragstart="return false">
     <div class="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-white/50 dark:border-gray-700/50 rounded-2xl p-5 flex items-center gap-5 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 active:bg-gray-200/80 dark:active:bg-gray-600/80">
         <div class="w-12 h-12 rounded-xl bg-black/5 dark:bg-white/10 flex items-center justify-center text-3xl active:brightness-90">
-            <iconify-icon icon={icon} class={`${iconColor} text-2xl`}></iconify-icon>
+            <Icon name={icon} class={`${iconColor} text-2xl`}></Icon>
         </div>
         <div class="flex-1">
             <h3 class="font-bold text-xl">{title}</h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">{description}</p>
         </div>
-        <iconify-icon icon="fa6-solid:chevron-right" class="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all text-base"></iconify-icon>
+        <Icon name="fa6-solid:chevron-right" class="text-gray-400 dark:text-gray-500 opacity-0 group-hover:opacity-100 transition-all text-base"></Icon>
     </div>
 </div>
 
 <script>
-    // 显示 Toast
     function showToast(message: string, isSuccess: boolean = true, duration: number = 2000) {
         const existingToast = document.querySelector('.custom-toast');
         if (existingToast) existingToast.remove();
 
         const toast = document.createElement('div');
         toast.className = 'custom-toast fixed top-4 left-1/2 transform -translate-x-1/2 px-4 py-3 rounded-full shadow-lg text-sm font-medium z-50 transition-opacity duration-300 flex items-center gap-2';
-        // 根据当前主题设置背景色
+
         const isDark = document.documentElement.classList.contains('dark');
         toast.style.backgroundColor = isDark ? '#1f2937' : '#ffffff';
         toast.style.color = isDark ? '#e5e7eb' : '#1f2937';
         toast.style.border = isDark ? '1px solid #374151' : '1px solid #e5e7eb';
 
-        // 创建图标元素（使用 iconify-icon）
-        const icon = document.createElement('iconify-icon');
-        if (isSuccess) {
-            icon.setAttribute('icon', 'fa6-solid:circle-check');
-            icon.setAttribute('class', 'text-green-500');
-        } else {
-            icon.setAttribute('icon', 'fa6-solid:circle-exclamation');
-            icon.setAttribute('class', 'text-red-500');
+        // 图标：从服务端预渲染的模板克隆（大小由模板决定，这里是 20px）
+        const templateId = isSuccess ? 'toast-icon-success' : 'toast-icon-error';
+        const template = document.getElementById(templateId);
+        if (template && template.firstElementChild) {
+            const iconClone = template.firstElementChild.cloneNode(true) as HTMLElement;
+            // 保证图标在 flex 中大小稳定，不会额外偏移
+            iconClone.style.display = 'block';
+            iconClone.style.flexShrink = '0';
+            toast.appendChild(iconClone);
         }
-        // 创建文本节点
+
         const textSpan = document.createElement('span');
         textSpan.innerText = message;
-
-        toast.appendChild(icon);
         toast.appendChild(textSpan);
         document.body.appendChild(toast);
 
-        // 淡入淡出效果
         toast.style.opacity = '0';
         setTimeout(() => { toast.style.opacity = '1'; }, 10);
         setTimeout(() => {
@@ -83,7 +82,7 @@ const { href, icon, iconColor = "text-gray-800", title, description, type = 'lin
     });
 });
 
-    const copyToClipboard = async (text) => {
+    const copyToClipboard = async (text: string) => {
     // 首选方法：现代 Clipboard API
     try {
         await navigator.clipboard.writeText(text);

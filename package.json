@@ -19,7 +19,7 @@
     "@iconify-json/material-symbols": "^1.2.69",
     "@tailwindcss/vite": "^4.2.2",
     "astro": "^6.1.7",
-    "iconify-icon": "^3.0.2",
+    "astro-icon": "^1.1.5",
     "overlayscrollbars": "^2.15.1",
     "tailwindcss": "^4.2.2"
   }

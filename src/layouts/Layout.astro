@@ -3,13 +3,13 @@ import '../styles/global.css'
 import '@fontsource/noto-sans';
 import 'overlayscrollbars/styles/overlayscrollbars.css';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import { Icon } from 'astro-icon/components';
 ---
 
 <!doctype html>
 <html lang="zh-CN">
 <head>
 	<script>
-		import 'iconify-icon';
 		import { OverlayScrollbars } from 'overlayscrollbars';
 		const init = () => {
 			// 初始化滚动条
@@ -75,6 +75,14 @@ import ThemeToggle from '../components/ThemeToggle.astro';
     #    #  #       #    #  #  #    # #
     #    # ######   #   #    #  ####  ######
 -->
+<div id="toast-icon-templates" style="display:none" aria-hidden="true">
+  <span id="toast-icon-success">
+    <Icon name="material-symbols:check-circle" class="w-4 h-4 text-green-500" />
+  </span>
+	<span id="toast-icon-error">
+    <Icon name="material-symbols:error" class="w-4 h-4 text-red-500" />
+  </span>
+</div>
 <ThemeToggle />
 <main class="max-w-full px-4 py-12 md:py-20 animate-fade-in-up">
 	<slot />

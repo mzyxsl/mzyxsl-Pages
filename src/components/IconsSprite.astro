@@ -1,0 +1,23 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <!-- 原有的 Toast 图标 -->
+    <symbol id="icon-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <Icon name="fa6-solid:circle-check" />
+    </symbol>
+    <symbol id="icon-error" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <Icon name="fa6-solid:circle-exclamation" />
+    </symbol>
+
+    <!-- ✅ 新增：主题切换图标 -->
+    <symbol id="icon-light" viewBox="0 0 24 24">
+        <Icon name="material-symbols:light-mode" />
+    </symbol>
+    <symbol id="icon-dark" viewBox="0 0 24 24">
+        <Icon name="material-symbols:dark-mode" />
+    </symbol>
+    <symbol id="icon-auto" viewBox="0 0 24 24">
+        <Icon name="material-symbols:contrast" />
+    </symbol>
+</svg>
